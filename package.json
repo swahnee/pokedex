@@ -1,0 +1,23 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint bin/ src/ tests/",
+    "test": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
+    "coverage": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage",
+    "coverage-ci": "JEST_ENV=ci node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^10.1.0",
+    "jest": "^30.3.0",
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2"
+  }
+}
