@@ -9,9 +9,7 @@ const pokeapiUrl = `${process.env.POKEAPI_HOST}:${process.env.POKEAPI_PORT}`;
 
 app.get("/pokemon/:name", async (req, res) => {
   const name = req.params.name;
-  const response = await fetch(
-    `${pokeapiUrl}/api/v2/pokemon-species/${name}`
-  );
+  const response = await fetch(`${pokeapiUrl}/api/v2/pokemon-species/${name}`);
   const data = await response.json();
   res.json({
     name: name,
