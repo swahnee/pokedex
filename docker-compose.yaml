@@ -41,3 +41,14 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+
+  ci:
+    build:
+      context: .
+      dockerfile: Dockerfile-ci
+    container_name: ci
+    volumes:
+      - .:/app
+    depends_on:
+      pokeapi:
+        condition: service_healthy

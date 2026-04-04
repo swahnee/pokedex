@@ -6,7 +6,7 @@ describe("pokemon", () => {
     const response = await request(app)
       .get("/pokemon/mewtwo")
       .expect("Content-Type", /json/)
-      .expect(200);
+      .expect(201);
 
     expect(response.body.name).toBe("mewtwo");
     expect(response.body.description).toMatch(/^It was created/);
