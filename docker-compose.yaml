@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${APP_ENV:-development}
     develop:
       watch:
         - action: sync
@@ -19,5 +19,20 @@ services:
           path: package.json
     volumes:
       - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+    depends_on:
+      - pokeapi
+
+  pokeapi:
+    build:
+      context: fakes/pokeapi
+    container_name: pokeapi
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./fakes/pokeapi:/app
       - /app/node_modules
     restart: unless-stopped

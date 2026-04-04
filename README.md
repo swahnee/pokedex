@@ -44,7 +44,7 @@ If you prefer to run the container and open a shell without starting the applica
 $ docker compose run --rm --service-ports app sh
 ```
 
-### Running commands
+### Executing commands
 
 From inside a container shell, you first need to install dependencies:
 
@@ -66,4 +66,14 @@ Turn off the containers:
 
 ```console
 $ docker compose down --remove-orphans --volumes
+```
+
+## Running the application
+
+When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of the real ones.
+
+In order to configure the application to run with a production setup, and thus make real calls on the network, we can just start it with the environment variable `APP_ENV` set to `production`:
+
+```console
+$ APP_ENV=production docker compose up
 ```
