@@ -24,12 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm test
+      - uses: docker/setup-compose-action@v2
+      - run: docker-compose up -d --build
+      - run: docker-compose exec app npm test
+      - run: docker-compose down
 
   coverage:
     name: Run Coverage

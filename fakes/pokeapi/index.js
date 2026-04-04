@@ -3,15 +3,16 @@ const app = express();
 
 const mewtwo = require("./fixtures/mewtwo.json");
 
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.get("/api/v2/pokemon-species/:name", (req, res) => {
   if (req.params.name === "mewtwo") {
-    res.json(mewtwo);
-
-    return;
+    return res.json(mewtwo);
   }
 
-  res.status(400);
-  res.send("Bad Request");
+  return res.status(400).send("Bad Request");
 });
 
 app.listen(4000, () => {
