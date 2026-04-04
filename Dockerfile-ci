@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["npm", "run", "test-ci"]
+CMD ["npm", "run", "ci"]
