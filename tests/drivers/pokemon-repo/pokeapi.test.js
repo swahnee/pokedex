@@ -2,10 +2,6 @@ const ApiError = require("../../../src/domain/pokemon-repo/api-error");
 const Pokeapi = require("../../../src/drivers/pokemon-repo/pokeapi");
 
 describe("pokeapi", () => {
-  beforeAll(() => {
-    jest.setTimeout(60000);
-  });
-
   it("fetches pokemon information", async () => {
     const repo = new Pokeapi(process.env.POKEAPI_URL);
 
@@ -43,5 +39,5 @@ describe("pokeapi", () => {
     } catch (e) {
       expect(e).toBeInstanceOf(ApiError);
     }
-  });
+  }, 60_000);
 });
