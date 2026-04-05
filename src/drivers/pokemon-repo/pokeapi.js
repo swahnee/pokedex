@@ -14,8 +14,8 @@ module.exports = class Pokeapi {
       const response = await fetch(
         `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`,
         {
-          signal: AbortSignal.timeout(3000)
-        },
+          signal: AbortSignal.timeout(3000),
+        }
       );
 
       if (response.status === 400) {
