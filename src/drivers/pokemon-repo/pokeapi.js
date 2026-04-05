@@ -1,4 +1,5 @@
 const ApiError = require("../../domain/pokemon-repo/api-error");
+const axios = require("axios");
 const Pokemon = require("../../domain/pokemon");
 
 /**
@@ -11,23 +12,11 @@ module.exports = class Pokeapi {
 
   async find(name) {
     try {
-      const response = await fetch(
-        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`,
-        {
-          signal: AbortSignal.timeout(3000),
-        }
+      const response = await axios.get(
+        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
       );
 
-      if (response.status === 400) {
-        return null;
-      }
-
-      if (response.status !== 200) {
-        // @TODO: add log
-        throw new ApiError();
-      }
-
-      const data = await response.json();
+      const data = response.data;
 
       return new Pokemon(
         name,
@@ -36,6 +25,10 @@ module.exports = class Pokeapi {
         data.is_legendary
       );
     } catch (e) {
+      if (e.response && e.response.status === 400) {
+        return null;
+      }
+
       // @TODO: add log
       throw new ApiError();
     }
