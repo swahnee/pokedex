@@ -17,18 +17,10 @@ $ docker compose build --no-cache
 Start the application for manual use
 
 ```console
-$ docker compose up -d && docker compose logs -f app
+$ docker compose up -d && docker compose logs -f
 ```
 
-Now you can access the application at `http://localhost:3000`.
-
-Alternatively, start the application in watch mode:
-
-```console
-$ docker compose watch && docker compose logs -f
-```
-
-Now you can access the application at `http://localhost:3000`. and any local code change will automatically restart the application.
+Now you can access the application at `http://localhost:3000`. Any local code change will automatically restart the application.
 
 In order to access the running container:
 
@@ -70,9 +62,9 @@ $ docker compose down --remove-orphans --volumes
 
 ## Running the application
 
-When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of the real ones.
+When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of real data.
 
-In order to configure the application to run with a production setup, and thus make real calls on the network, we can just start it with the environment variable `APP_ENV` set to `production`:
+In order to configure the application to run with a production setup, and thus make real calls on the network, just start it with the environment variable `APP_ENV` set to `production`:
 
 ```console
 $ APP_ENV=production docker compose up

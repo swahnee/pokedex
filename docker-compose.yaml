@@ -49,6 +49,8 @@ services:
     container_name: ci
     volumes:
       - .:/app
+    profiles:
+      - ci
     depends_on:
       pokeapi:
         condition: service_healthy

@@ -1,9 +1,9 @@
-const app = require("../src/app");
+const api = require("../src/clients/api/api");
 const request = require("supertest");
 
 describe("pokemon", () => {
   it("provides basic pokemon information", async () => {
-    const response = await request(app)
+    const response = await request(api)
       .get("/pokemon/mewtwo")
       .expect("Content-Type", /json/)
       .expect(200);
