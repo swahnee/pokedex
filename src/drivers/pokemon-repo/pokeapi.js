@@ -12,7 +12,10 @@ module.exports = class Pokeapi {
   async find(name) {
     try {
       const response = await fetch(
-        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
+        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`,
+        {
+          signal: AbortSignal.timeout(3000)
+        },
       );
 
       if (response.status === 400) {
