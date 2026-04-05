@@ -25,5 +25,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v2
-      - run: docker compose up --build --exit-code-from ci
+      - run: docker compose up --build --profile ci --exit-code-from ci
       - run: docker compose down

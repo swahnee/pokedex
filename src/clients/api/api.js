@@ -8,7 +8,7 @@ require("dotenv").config({
 });
 
 const pokemonRepo = new PokemonRepo(
-  `${process.env.POKEAPI_HOST}:${process.env.POKEAPI_PORT}`,
+  `${process.env.POKEAPI_HOST}:${process.env.POKEAPI_PORT}`
 );
 const pokemonService = new PokemonService(pokemonRepo);
 const pokemonController = new PokemonController(pokemonService);
