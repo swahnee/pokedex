@@ -28,5 +28,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v2
-      - run: APP_ENV=ci docker compose up --build --exit-code-from ci
+      - run: APP_ENV=ci docker compose up --build --exit-code-from app
       - run: docker compose down

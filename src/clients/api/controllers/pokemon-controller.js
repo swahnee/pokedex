@@ -25,12 +25,10 @@ module.exports = class PokemonController {
 
       return res.json({ name, description, habitat, isLegendary });
     } catch (e) {
-      return res
-        .status(500)
-        .json({
-          error:
-            "An error happened processing your request. Please try again later",
-        });
+      return res.status(500).json({
+        error:
+          "An error happened processing your request. Please try again later",
+      });
     }
   }
 };
