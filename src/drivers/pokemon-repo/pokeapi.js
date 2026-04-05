@@ -1,3 +1,4 @@
+const ApiError = require("../../domain/pokemon-repo/api-error");
 const Pokemon = require("../../domain/pokemon");
 
 /**
@@ -9,16 +10,31 @@ module.exports = class Pokeapi {
   }
 
   async find(name) {
-    const response = await fetch(
-      `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
-    );
-    const data = await response.json();
+    try {
+      const response = await fetch(
+        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
+      );
 
-    return new Pokemon(
-      name,
-      data.flavor_text_entries[0].flavor_text,
-      data.habitat.name,
-      data.is_legendary
-    );
+      if (response.status === 400) {
+        return null;
+      }
+
+      if (response.status !== 200) {
+        // @TODO: add log
+        throw new ApiError();
+      }
+
+      const data = await response.json();
+
+      return new Pokemon(
+        name,
+        data.flavor_text_entries[0].flavor_text,
+        data.habitat.name,
+        data.is_legendary
+      );
+    } catch (e) {
+      // @TODO: add log
+      throw new ApiError();
+    }
   }
 };

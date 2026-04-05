@@ -8,9 +8,10 @@ const config = {
   coveragePathIgnorePatterns: [],
   coverageReporters: ["text"],
   transform: {},
+  setupFiles: ["./tests/setup.js"],
 };
 
-if (process.env.JEST_ENV === "ci") {
+if (process.env.APP_ENV === "ci") {
   config.bail = true;
   config.verbose = false;
   config.coverageReporters = [];

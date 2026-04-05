@@ -1,5 +1,7 @@
 FROM node:20-alpine
 
+ENV APP_ENV=development
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -10,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "--watch", "index.js"]
+CMD ["/app/entrypoint.sh"]

@@ -20,7 +20,7 @@ Start the application for manual use
 $ docker compose up -d && docker compose logs -f
 ```
 
-Now you can access the application at `http://localhost:3000`. Any local code change will automatically restart the application.
+Now you can access the application at `http://localhost:3000`. Since the application is by default launched with `node --watch`, any local code change will automatically restart the application.
 
 In order to access the running container:
 

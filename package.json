@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "prettier --check .",
-    "test": "NODE_ENV=test node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
+    "test": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
     "coverage": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage",
-    "ci": "npm install && NODE_ENV=test node --use_strict --unhandled-rejections=strict node_modules/.bin/jest && JEST_ENV=ci node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
+    "ci": "npm install && node --use_strict --unhandled-rejections=strict node_modules/.bin/jest && node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
   },
   "author": "",
   "license": "ISC",

@@ -12,6 +12,10 @@ app.get("/api/v2/pokemon-species/:name", (req, res) => {
     return res.json(mewtwo);
   }
 
+  if (req.params.name === "error") {
+    return res.status(500).send("Internal Server Error");
+  }
+
   return res.status(400).send("Bad Request");
 });
 
