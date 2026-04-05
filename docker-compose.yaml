@@ -26,7 +26,7 @@ services:
       - ./fakes/pokeapi:/app
       - /app/node_modules
     restart: unless-stopped
-    stop_grace_period: 30s
+    stop_grace_period: 60s
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:4000"]
       interval: 5s
