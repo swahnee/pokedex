@@ -1,24 +1,29 @@
 module.exports = class Pokemon {
+  #name;
+  #description;
+  #habitat;
+  #isLegendary;
+
   constructor(name, description, habitat, isLegendary) {
-    this._name = name;
-    this._description = description;
-    this._habitat = habitat;
-    this._isLegendary = isLegendary;
+    this.#name = name;
+    this.#description = description;
+    this.#habitat = habitat;
+    this.#isLegendary = isLegendary;
   }
 
   get name() {
-    return this._name;
+    return this.#name;
   }
 
   get description() {
-    return this._description;
+    return this.#description;
   }
 
   get habitat() {
-    return this._habitat;
+    return this.#habitat;
   }
 
   get isLegendary() {
-    return this._isLegendary;
+    return this.#isLegendary;
   }
 };

@@ -7,6 +7,6 @@ module.exports = class Service {
   }
 
   async findPokemon(name) {
-    return await this._pokemonRepo.find(name);
+    return this._pokemonRepo.find(name);
   }
 };

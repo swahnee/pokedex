@@ -15,7 +15,7 @@ const pokemonController = new PokemonController(pokemonService);
 const api = express();
 
 api.get("/pokemon/:name", async (req, res) => {
-  return await pokemonController.getPokemon(req, res);
+  return pokemonController.getPokemon(req, res);
 });
 
 module.exports = api;

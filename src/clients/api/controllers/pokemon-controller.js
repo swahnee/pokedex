@@ -7,14 +7,9 @@ module.exports = class PokemonController {
   }
 
   async getPokemon(req, res) {
-    const name = req.params.name;
-    const pokemon = await this._service.findPokemon(name);
+    const { name, description, habitat, isLegendary } =
+      await this._service.findPokemon(req.params.name);
 
-    return res.json({
-      name: pokemon.name,
-      description: pokemon.description,
-      habitat: pokemon.habitat,
-      isLegendary: pokemon.isLegendary,
-    });
+    return res.json({ name, description, habitat, isLegendary });
   }
 };
