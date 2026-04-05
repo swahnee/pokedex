@@ -6,7 +6,7 @@
     "lint": "prettier --check .",
     "test": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
     "coverage": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage",
-    "ci": "npm install && node --use_strict --unhandled-rejections=strict --detectOpenHandles node_modules/.bin/jest && node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
+    "ci": "npm install && node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --detectOpenHandles && node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
   },
   "author": "",
   "license": "ISC",
