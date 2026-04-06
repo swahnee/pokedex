@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  APP_ENV: "ci"
+
 jobs:
   format:
     name: Check Format
@@ -25,5 +28,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v2
-      - run: docker compose --profile ci up --build --exit-code-from ci
+      - run: docker compose up --build -d
+      - run: docker compose exec app npm run test
+      - run: docker compose down
+
+  coverage:
+    name: Run Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-compose-action@v2
+      - run: docker compose up --build -d
+      - run: docker compose exec app npm run coverage
       - run: docker compose down

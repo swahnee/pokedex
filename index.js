@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `config/.env.dist.${process.env.APP_ENV}`,
+});
+
 const api = require("./src/clients/api/api");
 
 api.listen(process.env.APP_PORT, () => {
