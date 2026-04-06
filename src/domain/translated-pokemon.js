@@ -1,7 +1,7 @@
 /**
- * Entity representing an existing Pokémon persisted somewhere
+ * DTO representing a Pokémon with a translated description
  */
-export default class Pokemon {
+export default class TranslatedPokemon {
   #name;
   #description;
   #habitat;

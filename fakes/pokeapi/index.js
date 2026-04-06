@@ -3,6 +3,7 @@ import fs from "fs";
 
 const app = express();
 const mewtwo = JSON.parse(fs.readFileSync("./fixtures/mewtwo.json", "utf-8"));
+const zubat = JSON.parse(fs.readFileSync("./fixtures/zubat.json", "utf-8"));
 
 app.get("/", (req, res) => {
   res.status(200).send("OK");
@@ -11,6 +12,10 @@ app.get("/", (req, res) => {
 app.get("/api/v2/pokemon-species/:name", (req, res) => {
   if (req.params.name === "mewtwo") {
     return res.json(mewtwo);
+  }
+
+  if (req.params.name === "zubat") {
+    return res.json(zubat);
   }
 
   if (req.params.name === "error") {
