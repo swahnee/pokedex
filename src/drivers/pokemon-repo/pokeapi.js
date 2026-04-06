@@ -1,24 +1,32 @@
-import ApiError from "../../domain/pokemon-repo/api-error.js";
+import PokemonRepoError from "../../domain/pokemon-repo/pokemon-repo-error.js";
 import Pokemon from "../../domain/pokemon.js";
 
 /**
  * @implements Domain.PokemonRepo
  */
 export default class Pokeapi {
+  /**
+   * @var {string}
+   */
+  #pokeapiUrl;
+
+  /**
+   * @param {string} pokeapiUrl
+   */
   constructor(pokeapiUrl) {
-    this._pokeapiUrl = pokeapiUrl;
+    this.#pokeapiUrl = pokeapiUrl;
   }
 
   async find(name) {
     let response;
     try {
       response = await fetch(
-        `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
+        `${this.#pokeapiUrl}/api/v2/pokemon-species/${name}`
       );
     } catch (e) {
       // @TODO: add proper logging
       console.error(e);
-      throw new ApiError();
+      throw new PokemonRepoError();
     }
 
     if (response.status === 400) {
@@ -28,7 +36,7 @@ export default class Pokeapi {
     if (response.status !== 200) {
       // @TODO: add proper logging
       console.error(response);
-      throw new ApiError();
+      throw new PokemonRepoError();
     }
 
     const data = await response.json();
@@ -36,7 +44,8 @@ export default class Pokeapi {
     return new Pokemon(
       name,
       // @TODO: look for English translations specifically
-      data.flavor_text_entries[0].flavor_text,
+      data.flavor_text_entries.filter((e) => e.language.name === "en")[0]
+        .flavor_text,
       data.habitat.name,
       data.is_legendary
     );

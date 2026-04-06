@@ -1,12 +1,54 @@
+import TranslatedPokemon from "./translated-pokemon.js";
+
 export default class Service {
   /**
-   * @param {Domain.PokemonRepo} pokemonRepo
+   * @var {Domain.PokemonRepo}
    */
-  constructor(pokemonRepo) {
-    this._pokemonRepo = pokemonRepo;
+  #pokemonRepo;
+
+  /**
+   * @var {Domain.TranslationsService}
+   */
+  #translationsService;
+
+  /**
+   * @param {Domain.PokemonRepo} pokemonRepo
+   * @param {Domain.TranslationsService} translationsService
+   */
+  constructor(pokemonRepo, translationsService) {
+    this.#pokemonRepo = pokemonRepo;
+    this.#translationsService = translationsService;
   }
 
   async findPokemon(name) {
-    return this._pokemonRepo.find(name);
+    return this.#pokemonRepo.find(name);
+  }
+
+  async findTranslated(name) {
+    const pokemon = await this.#pokemonRepo.find(name);
+    if (pokemon === null) {
+      return null;
+    }
+
+    let description;
+    try {
+      description = await this.#translationsService.translate(
+        pokemon.description
+      );
+    } catch (e) {
+      return new TranslatedPokemon(
+        pokemon.name,
+        pokemon.description,
+        pokemon.habitat,
+        pokemon.isLegendary
+      );
+    }
+
+    return new TranslatedPokemon(
+      pokemon.name,
+      description,
+      pokemon.habitat,
+      pokemon.isLegendary
+    );
   }
 }

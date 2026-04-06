@@ -1,4 +1,4 @@
-export default class PokemonController {
+export default class TranslatedController {
   /**
    * @var {Domain.Service}
    */
@@ -11,7 +11,7 @@ export default class PokemonController {
     this.#service = service;
   }
 
-  async getPokemon(req, res) {
+  async getTranslated(req, res) {
     // Pokemon names can contain many special characters, so for
     // simplicity we're just trimming the input here.
     // Blank strings are already caught by the router as different routes,
@@ -19,7 +19,7 @@ export default class PokemonController {
     const pokemonName = req.params.name.trim();
 
     try {
-      const result = await this.#service.findPokemon(pokemonName);
+      const result = await this.#service.findTranslated(pokemonName);
       if (result === null) {
         return res
           .status(404)

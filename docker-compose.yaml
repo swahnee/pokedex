@@ -15,6 +15,8 @@ services:
     depends_on:
       pokeapi:
         condition: service_healthy
+      funtranslations:
+        condition: service_healthy
 
   pokeapi:
     build:
@@ -28,6 +30,23 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:4000"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  funtranslations:
+    build:
+      context: fakes/funtranslations
+    container_name: funtranslations
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./fakes/funtranslations:/app
+      - /app/node_modules
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:5000"]
       interval: 5s
       timeout: 5s
       retries: 5

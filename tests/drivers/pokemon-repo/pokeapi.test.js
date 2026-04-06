@@ -1,4 +1,4 @@
-import ApiError from "../../../src/domain/pokemon-repo/api-error.js";
+import PokemonRepoError from "../../../src/domain/pokemon-repo/pokemon-repo-error.js";
 import Pokeapi from "../../../src/drivers/pokemon-repo/pokeapi.js";
 
 describe("pokeapi", () => {
@@ -24,12 +24,12 @@ describe("pokeapi", () => {
   it("handles api errors", async () => {
     const repo = new Pokeapi(process.env.POKEAPI_URL);
 
-    await expect(repo.find("error")).rejects.toBeInstanceOf(ApiError);
+    await expect(repo.find("error")).rejects.toBeInstanceOf(PokemonRepoError);
   });
 
   it("handles network errors", async () => {
     const repo = new Pokeapi("http://invalid_host");
 
-    await expect(repo.find("mewtwo")).rejects.toBeInstanceOf(ApiError);
+    await expect(repo.find("mewtwo")).rejects.toBeInstanceOf(PokemonRepoError);
   }, 60_000);
 });
