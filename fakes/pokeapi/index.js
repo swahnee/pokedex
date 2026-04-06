@@ -1,6 +1,8 @@
 import express from "express";
-import mewtwo from "./fixtures/mewtwo.json" with { type: "json" };
+import fs from "fs";
+
 const app = express();
+const mewtwo = JSON.parse(fs.readFileSync("./fixtures/mewtwo.json", "utf-8"));
 
 app.get("/", (req, res) => {
   res.status(200).send("OK");

@@ -1,7 +1,13 @@
-import api from "../src/clients/api/api.js";
+import buildApi from "../src/clients/api/api.js";
 import request from "supertest";
 
 describe("pokemon", () => {
+  let api = null;
+
+  beforeAll(() => {
+    api = buildApi();
+  });
+
   it("provides basic pokemon information", async () => {
     const response = await request(api)
       .get("/pokemon/mewtwo")
