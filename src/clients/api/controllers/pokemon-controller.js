@@ -1,4 +1,4 @@
-module.exports = class PokemonController {
+export default class PokemonController {
   /**
    * @param {Domain.Service} service
    */
@@ -25,10 +25,12 @@ module.exports = class PokemonController {
 
       return res.json({ name, description, habitat, isLegendary });
     } catch (e) {
+      // @TODO: add proper logging
+      console.error(e);
       return res.status(500).json({
         error:
           "An error happened processing your request. Please try again later",
       });
     }
   }
-};
+}

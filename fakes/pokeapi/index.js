@@ -1,7 +1,8 @@
-const express = require("express");
-const app = express();
+import express from "express";
+import fs from "fs";
 
-const mewtwo = require("./fixtures/mewtwo.json");
+const app = express();
+const mewtwo = JSON.parse(fs.readFileSync("./fixtures/mewtwo.json", "utf-8"));
 
 app.get("/", (req, res) => {
   res.status(200).send("OK");

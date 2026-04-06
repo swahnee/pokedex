@@ -1,5 +1,5 @@
-const ApiError = require("../../../src/domain/pokemon-repo/api-error");
-const Pokeapi = require("../../../src/drivers/pokemon-repo/pokeapi");
+import ApiError from "../../../src/domain/pokemon-repo/api-error.js";
+import Pokeapi from "../../../src/drivers/pokemon-repo/pokeapi.js";
 
 describe("pokeapi", () => {
   it("fetches pokemon information", async () => {

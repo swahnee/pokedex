@@ -1,5 +1,6 @@
 {
   "name": "pokeapi",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {

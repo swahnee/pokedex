@@ -1,4 +1,4 @@
-module.exports = class Pokemon {
+export default class Pokemon {
   #name;
   #description;
   #habitat;
@@ -26,4 +26,4 @@ module.exports = class Pokemon {
   get isLegendary() {
     return this.#isLegendary;
   }
-};
+}

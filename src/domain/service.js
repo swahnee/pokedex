@@ -1,4 +1,4 @@
-module.exports = class Service {
+export default class Service {
   /**
    * @param {Domain.PokemonRepo} pokemonRepo
    */
@@ -9,4 +9,4 @@ module.exports = class Service {
   async findPokemon(name) {
     return this._pokemonRepo.find(name);
   }
-};
+}
