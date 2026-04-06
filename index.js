@@ -1,6 +1,3 @@
-const axios = require("axios");
-axios.defaults.timeout = 3000;
-
 require("dotenv").config({
   path: `config/.env.dist.${process.env.APP_ENV}`,
 });
