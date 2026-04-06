@@ -30,5 +30,4 @@ jobs:
       - uses: docker/setup-compose-action@v2
       - run: docker compose up --build -d
       - run: docker compose exec app npm run ci
-      #- run: APP_ENV=ci docker compose up --build --exit-code-from app
       - run: docker compose down

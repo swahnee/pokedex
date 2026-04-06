@@ -4,12 +4,9 @@ ENV APP_ENV=development
 
 WORKDIR /app
 
-#COPY package*.json ./
-
-#RUN npm ci --omit=dev
-#RUN npm ci
-
 COPY . .
+
+RUN npm ci
 
 EXPOSE 3000
 
