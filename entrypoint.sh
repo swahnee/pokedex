@@ -10,5 +10,6 @@ elif [ "$APP_ENV" = "ci" ]; then
   exec npm run ci
 else
   echo "Starting development server..."
+  exec npm ci
   exec node --watch index.js
 fi
