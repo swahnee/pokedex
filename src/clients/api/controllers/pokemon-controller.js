@@ -26,7 +26,7 @@ export default class PokemonController {
       return res.json({ name, description, habitat, isLegendary });
     } catch (e) {
       // @TODO: add proper logging
-      console.log(e);
+      console.error(e);
       return res.status(500).json({
         error:
           "An error happened processing your request. Please try again later",

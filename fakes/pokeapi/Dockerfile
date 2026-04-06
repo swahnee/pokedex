@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["node", "index.js"]
+CMD ["node", "--experimental-json-modules", "index.js"]

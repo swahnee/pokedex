@@ -17,7 +17,7 @@ export default class Pokeapi {
       );
     } catch (e) {
       // @TODO: add proper logging
-      console.log(e);
+      console.error(e);
       throw new ApiError();
     }
 
@@ -27,7 +27,7 @@ export default class Pokeapi {
 
     if (response.status !== 200) {
       // @TODO: add proper logging
-      console.log(response);
+      console.error(response);
       throw new ApiError();
     }
 
