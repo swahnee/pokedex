@@ -9,4 +9,4 @@ export default class Service {
   async findPokemon(name) {
     return this._pokemonRepo.find(name);
   }
-};
+}

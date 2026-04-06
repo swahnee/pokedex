@@ -26,4 +26,4 @@ export default class Pokemon {
   get isLegendary() {
     return this.#isLegendary;
   }
-};
+}

@@ -41,4 +41,4 @@ export default class Pokeapi {
       data.is_legendary
     );
   }
-};
+}
