@@ -1,10 +1,10 @@
-const ApiError = require("../../domain/pokemon-repo/api-error");
-const Pokemon = require("../../domain/pokemon");
+import ApiError from "../../domain/pokemon-repo/api-error.js";
+import Pokemon from "../../domain/pokemon.js";
 
 /**
  * @implements Domain.PokemonRepo
  */
-module.exports = class Pokeapi {
+export default class Pokeapi {
   constructor(pokeapiUrl) {
     this._pokeapiUrl = pokeapiUrl;
   }
@@ -16,7 +16,8 @@ module.exports = class Pokeapi {
         `${this._pokeapiUrl}/api/v2/pokemon-species/${name}`
       );
     } catch (e) {
-      // @TODO: add log
+      // @TODO: add proper logging
+      console.log(e);
       throw new ApiError();
     }
 
@@ -25,7 +26,8 @@ module.exports = class Pokeapi {
     }
 
     if (response.status !== 200) {
-      // @TODO: add log
+      // @TODO: add proper logging
+      console.log(response);
       throw new ApiError();
     }
 

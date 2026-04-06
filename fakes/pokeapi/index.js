@@ -1,7 +1,6 @@
-const express = require("express");
+import express from "express";
+import mewtwo from "./fixtures/mewtwo.json" with { type: "json" };
 const app = express();
-
-const mewtwo = require("./fixtures/mewtwo.json");
 
 app.get("/", (req, res) => {
   res.status(200).send("OK");

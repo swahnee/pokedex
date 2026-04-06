@@ -1,4 +1,4 @@
-module.exports = class Pokemon {
+export default class Pokemon {
   #name;
   #description;
   #habitat;

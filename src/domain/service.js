@@ -1,4 +1,4 @@
-module.exports = class Service {
+export default class Service {
   /**
    * @param {Domain.PokemonRepo} pokemonRepo
    */
