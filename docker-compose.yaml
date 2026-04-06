@@ -27,6 +27,7 @@ services:
       - /app/node_modules
     restart: unless-stopped
     stop_grace_period: 60s
+    stop_signal: SIGTERM
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:4000"]
       interval: 5s
