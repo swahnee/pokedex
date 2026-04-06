@@ -28,8 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v2
-      - run: docker compose up --build -d
-      - run: docker compose exec app npm run test
+      - run: docker compose up --build -d --wait
+      - run: docker compose exec app npm test
       - run: docker compose down
 
   coverage:
@@ -38,6 +38,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v2
-      - run: docker compose up --build -d
+      - run: docker compose up --build -d --wait
       - run: docker compose exec app npm run coverage
       - run: docker compose down
