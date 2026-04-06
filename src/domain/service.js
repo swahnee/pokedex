@@ -25,7 +25,7 @@ export default class Service {
   }
 
   async findTranslated(name) {
-    const pokemon = await this.#pokemonRepo.find(name);
+    const pokemon = await this.findPokemon(name);
     if (pokemon === null) {
       return null;
     }

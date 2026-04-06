@@ -1,4 +1,4 @@
-import TranslationsServiceError from "../../domain/translations-service/translations-service-error";
+import TranslationsServiceError from "../../domain/translations-service/translations-service-error.js";
 
 /**
  * @implements Domain.TranslationsService
