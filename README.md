@@ -64,8 +64,8 @@ $ docker compose down --remove-orphans --volumes
 
 When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of real data.
 
-In order to configure the application to run with a production setup, and thus make real calls on the network, just start it with the environment variable `APP_ENV` set to `production`:
+In order to configure the application to run with a production setup, and thus make real calls on the network, just start it with the environment variable `APP_ENV` set to `prod`:
 
 ```console
-$ APP_ENV=production docker compose up
+$ APP_ENV=prod docker compose up
 ```

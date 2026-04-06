@@ -24,20 +24,12 @@ describe("pokeapi", () => {
   it("handles api errors", async () => {
     const repo = new Pokeapi(process.env.POKEAPI_URL);
 
-    try {
-      await repo.find("error");
-    } catch (e) {
-      expect(e).toBeInstanceOf(ApiError);
-    }
+    await expect(repo.find("error")).rejects.toBeInstanceOf(ApiError);
   });
 
   it("handles network errors", async () => {
     const repo = new Pokeapi("http://invalid_host");
 
-    try {
-      await repo.find("mewtwo");
-    } catch (e) {
-      expect(e).toBeInstanceOf(ApiError);
-    }
+    await expect(repo.find("mewtwo")).rejects.toBeInstanceOf(ApiError);
   }, 60_000);
 });
