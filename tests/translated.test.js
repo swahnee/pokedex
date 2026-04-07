@@ -27,7 +27,9 @@ describe("translated", () => {
       .expect(200);
 
     expect(response.body.name).toBe("mewtwo");
-    expect(response.body.description).toBe("Yoda translated Mewtwo description");
+    expect(response.body.description).toBe(
+      "Yoda translated Mewtwo description"
+    );
     expect(response.body.habitat).toBe("rare");
     expect(response.body.isLegendary).toBe(true);
   });
@@ -39,7 +41,9 @@ describe("translated", () => {
       .expect(200);
 
     expect(response.body.name).toBe("garchomp");
-    expect(response.body.description).toBe("Shakespeare translated Garchomp description");
+    expect(response.body.description).toBe(
+      "Shakespeare translated Garchomp description"
+    );
     expect(response.body.habitat).toBeNull();
     expect(response.body.isLegendary).toBe(false);
   });

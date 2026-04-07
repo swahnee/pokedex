@@ -26,7 +26,10 @@ app.post("/v1/translate/yoda", (req, res) => {
     });
   }
 
-  if (req.body.text === "Forms colonies in\nperpetually dark\nplaces. Uses\fultrasonic waves\nto identify and\napproach targets.") {
+  if (
+    req.body.text ===
+    "Forms colonies in\nperpetually dark\nplaces. Uses\fultrasonic waves\nto identify and\napproach targets."
+  ) {
     return res.json({
       success: {
         total: 1,
