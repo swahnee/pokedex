@@ -1,5 +1,5 @@
 /**
- * DTO representing a Pokémon with a translated description
+ * DTO representing a Pokémon with a translated description.
  */
 export default class TranslatedPokemon {
   #name;
