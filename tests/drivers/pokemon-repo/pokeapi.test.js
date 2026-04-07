@@ -13,6 +13,14 @@ describe("pokeapi", () => {
     expect(pokemon.isLegendary).toBe(true);
   });
 
+  it("handles pokemon with no habitat", async () => {
+    const repo = new Pokeapi(process.env.POKEAPI_URL);
+
+    const pokemon = await repo.find("garchomp");
+
+    expect(pokemon.habitat).toBeNull();
+  });
+
   it("handles pokemon not found", async () => {
     const repo = new Pokeapi(process.env.POKEAPI_URL);
 

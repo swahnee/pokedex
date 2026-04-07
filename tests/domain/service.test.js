@@ -16,12 +16,12 @@ describe("service.findPokemon", () => {
 });
 
 describe("service.findTranslated", () => {
-  it("finds translated pokemon given name", async () => {
+  it("translates cave pokemon with yoda translation", async () => {
     const pokemon = {
       name: "name",
       description: "description",
-      habitat: "habitat",
-      isLegendary: "isLegendary",
+      habitat: "cave",
+      isLegendary: false,
     };
 
     const pokemonRepo = {
@@ -32,7 +32,40 @@ describe("service.findTranslated", () => {
       },
     };
     const translationsService = {
-      translate: (text) => {
+      translateYoda: (text) => {
+        if (text === "description") {
+          return "translation";
+        }
+      },
+    };
+    const service = new Service(pokemonRepo, translationsService);
+
+    const translated = await service.findTranslated("name");
+
+    expect(translated).toBeInstanceOf(TranslatedPokemon);
+    expect(translated.name).toBe("name");
+    expect(translated.description).toBe("translation");
+    expect(translated.habitat).toBe("cave");
+    expect(translated.isLegendary).toBe(false);
+  });
+
+  it("translates legendary pokemon with yoda translation", async () => {
+    const pokemon = {
+      name: "name",
+      description: "description",
+      habitat: "habitat",
+      isLegendary: true,
+    };
+
+    const pokemonRepo = {
+      find: (name) => {
+        if (name === "name") {
+          return pokemon;
+        }
+      },
+    };
+    const translationsService = {
+      translateYoda: (text) => {
         if (text === "description") {
           return "translation";
         }
@@ -46,7 +79,40 @@ describe("service.findTranslated", () => {
     expect(translated.name).toBe("name");
     expect(translated.description).toBe("translation");
     expect(translated.habitat).toBe("habitat");
-    expect(translated.isLegendary).toBe("isLegendary");
+    expect(translated.isLegendary).toBe(true);
+  });
+
+  it("translates regular pokemon with shakespeare translation", async () => {
+    const pokemon = {
+      name: "name",
+      description: "description",
+      habitat: "habitat",
+      isLegendary: false,
+    };
+
+    const pokemonRepo = {
+      find: (name) => {
+        if (name === "name") {
+          return pokemon;
+        }
+      },
+    };
+    const translationsService = {
+      translateShakespeare: (text) => {
+        if (text === "description") {
+          return "translation";
+        }
+      },
+    };
+    const service = new Service(pokemonRepo, translationsService);
+
+    const translated = await service.findTranslated("name");
+
+    expect(translated).toBeInstanceOf(TranslatedPokemon);
+    expect(translated.name).toBe("name");
+    expect(translated.description).toBe("translation");
+    expect(translated.habitat).toBe("habitat");
+    expect(translated.isLegendary).toBe(false);
   });
 
   it("handles pokemon not found", async () => {
@@ -65,7 +131,7 @@ describe("service.findTranslated", () => {
       name: "name",
       description: "description",
       habitat: "habitat",
-      isLegendary: "isLegendary",
+      isLegendary: false,
     };
 
     const pokemonRepo = {
@@ -84,6 +150,6 @@ describe("service.findTranslated", () => {
     expect(translated.name).toBe("name");
     expect(translated.description).toBe("description");
     expect(translated.habitat).toBe("habitat");
-    expect(translated.isLegendary).toBe("isLegendary");
+    expect(translated.isLegendary).toBe(false);
   });
 });

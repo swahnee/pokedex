@@ -32,16 +32,9 @@ export default class Service {
 
     let description;
     try {
-      description = await this.#translationsService.translate(
-        pokemon.description
-      );
+      description = await this.#translate(pokemon);
     } catch (e) {
-      return new TranslatedPokemon(
-        pokemon.name,
-        pokemon.description,
-        pokemon.habitat,
-        pokemon.isLegendary
-      );
+      description = pokemon.description;
     }
 
     return new TranslatedPokemon(
@@ -50,5 +43,13 @@ export default class Service {
       pokemon.habitat,
       pokemon.isLegendary
     );
+  }
+
+  async #translate(pokemon) {
+    if (pokemon.habitat === "cave" || pokemon.isLegendary) {
+      return this.#translationsService.translateYoda(pokemon.description);
+    }
+
+    return this.#translationsService.translateShakespeare(pokemon.description);
   }
 }

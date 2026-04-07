@@ -43,10 +43,9 @@ export default class Pokeapi {
 
     return new Pokemon(
       name,
-      // @TODO: look for English translations specifically
       data.flavor_text_entries.filter((e) => e.language.name === "en")[0]
         .flavor_text,
-      data.habitat.name,
+      data.habitat?.name ?? null,
       data.is_legendary
     );
   }

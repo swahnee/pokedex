@@ -20,6 +20,34 @@ describe("translated", () => {
     expect(response.body.isLegendary).toBe(false);
   });
 
+  it("provides translated pokemon description for legendary pokemon", async () => {
+    const response = await request(api)
+      .get("/pokemon/translated/mewtwo")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body.name).toBe("mewtwo");
+    expect(response.body.description).toBe(
+      "Yoda translated Mewtwo description"
+    );
+    expect(response.body.habitat).toBe("rare");
+    expect(response.body.isLegendary).toBe(true);
+  });
+
+  it("provides translated pokemon description for regular pokemon", async () => {
+    const response = await request(api)
+      .get("/pokemon/translated/garchomp")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body.name).toBe("garchomp");
+    expect(response.body.description).toBe(
+      "Shakespeare translated Garchomp description"
+    );
+    expect(response.body.habitat).toBeNull();
+    expect(response.body.isLegendary).toBe(false);
+  });
+
   it("handles input with spaces", async () => {
     const response = await request(api)
       .get("/pokemon/translated/  zubat  ")

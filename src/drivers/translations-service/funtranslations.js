@@ -13,16 +13,27 @@ export default class FunTranslations {
     this.#funtranslationsUrl = funtranslationsUrl;
   }
 
-  async translate(text) {
+  async translateYoda(text) {
+    return this.#translate(text, "yoda");
+  }
+
+  async translateShakespeare(text) {
+    return this.#translate(text, "shakespeare");
+  }
+
+  async #translate(text, type) {
     let response;
     try {
-      response = await fetch(`${this.#funtranslationsUrl}/v1/translate/yoda`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      });
+      response = await fetch(
+        `${this.#funtranslationsUrl}/v1/translate/${type}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text }),
+        }
+      );
     } catch (e) {
       // @TODO: add proper logging
       console.error(e);
