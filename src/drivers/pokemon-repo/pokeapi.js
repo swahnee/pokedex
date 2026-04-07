@@ -6,20 +6,45 @@ import Pokemon from "../../domain/pokemon.js";
  */
 export default class Pokeapi {
   /**
+   * @var {Application.Dispatcher}
+   */
+  #dispatcher;
+
+  /**
    * @var {string}
    */
   #pokeapiUrl;
 
   /**
+   * @var {Map}
+   */
+  #cache;
+
+  /**
+   * @param {Application.Dispatcher}
    * @param {string} pokeapiUrl
    */
-  constructor(pokeapiUrl) {
+  constructor(dispatcher, pokeapiUrl) {
+    this.#dispatcher = dispatcher;
     this.#pokeapiUrl = pokeapiUrl;
+    this.#cache = new Map();
   }
 
   async find(name) {
+    if (this.#cache.has(name)) {
+      // @TODO: here we should also store the ETag in order to check
+      // with the server if it matches with the current resource, but
+      // for simplicity we'll just update every time the expiration time
+      // is over
+      const [expiration, pokemon] = this.#cache.get(name);
+      if (expiration > Math.floor(Date.now() / 1000)) {
+        return pokemon;
+      }
+    }
+
     let response;
     try {
+      console.log('GETTING POKEMON');
       response = await fetch(
         `${this.#pokeapiUrl}/api/v2/pokemon-species/${name}`
       );
@@ -41,13 +66,21 @@ export default class Pokeapi {
 
     const data = await response.json();
 
-    return new Pokemon(
+    const pokemon = new Pokemon(
       name,
-      // @TODO: look for English translations specifically
       data.flavor_text_entries.filter((e) => e.language.name === "en")[0]
         .flavor_text,
       data.habitat.name,
       data.is_legendary
     );
+
+    const cacheControl = response.headers.get('Cache-Control');
+    const maxAgeMatch = cacheControl?.match(/max-age=(\d+)/);
+    const maxAge = maxAgeMatch ? parseInt(maxAgeMatch[1], 10) : -1;
+    const expiration = Math.floor(Date.now() / 1000) + maxAge;
+    this.#cache.set(name, [expiration, pokemon]);
+    this.#dispatcher.emit('pokemon.updated', name, pokemon);
+
+    return pokemon;
   }
 }

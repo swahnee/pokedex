@@ -1,18 +1,26 @@
 import express from "express";
+import Dispatcher from "../../application/dispatcher.js";
 import FunTranslations from "../../drivers/translations-service/funtranslations.js";
 import PokemonController from "./controllers/pokemon-controller.js";
 import PokeApi from "../../drivers/pokemon-repo/pokeapi.js";
 import Service from "../../domain/service.js";
 import TranslatedController from "./controllers/translated-controller.js";
+import UpdateListener from "../update-listener.js";
 
 const buildApi = () => {
-  const pokemonRepo = new PokeApi(process.env.POKEAPI_URL);
+  const dispatcher = new Dispatcher();
+  const translatedCache = new Map();
+  const updateListener = new UpdateListener(translatedCache);
+
+  const pokemonRepo = new PokeApi(dispatcher, process.env.POKEAPI_URL);
   const translationsService = new FunTranslations(
     process.env.FUNTRANSLATIONS_URL
   );
   const service = new Service(pokemonRepo, translationsService);
   const pokemonController = new PokemonController(service);
-  const translatedController = new TranslatedController(service);
+  const translatedController = new TranslatedController(service, translatedCache);
+
+  updateListener.bind(dispatcher);
 
   const api = express();
 
