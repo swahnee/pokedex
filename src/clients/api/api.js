@@ -6,11 +6,11 @@ import Service from "../../domain/service.js";
 import TranslatedController from "./controllers/translated-controller.js";
 
 const buildApi = () => {
-  const pokemonRepo = new PokeApi(process.env.POKEAPI_URL);
+  const pokemonDataRepo = new PokeApi(process.env.POKEAPI_URL);
   const translationsService = new FunTranslations(
     process.env.FUNTRANSLATIONS_URL
   );
-  const service = new Service(pokemonRepo, translationsService);
+  const service = new Service(pokemonDataRepo, translationsService);
   const pokemonController = new PokemonController(service);
   const translatedController = new TranslatedController(service);
 

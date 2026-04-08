@@ -1,10 +1,12 @@
-import TranslatedPokemon from "./translated-pokemon.js";
+import Pokemon from "./pokemon.js";
 
 export default class Service {
+  static #DEFAULT_DESCRIPTION = "Default description";
+
   /**
-   * @var {Domain.PokemonRepo}
+   * @var {Domain.PokemonDataRepo}
    */
-  #pokemonRepo;
+  #pokemonDataRepo;
 
   /**
    * @var {Domain.TranslationsService}
@@ -12,44 +14,63 @@ export default class Service {
   #translationsService;
 
   /**
-   * @param {Domain.PokemonRepo} pokemonRepo
+   * @param {Domain.PokemonDataRepo} pokemonDataRepo
    * @param {Domain.TranslationsService} translationsService
    */
-  constructor(pokemonRepo, translationsService) {
-    this.#pokemonRepo = pokemonRepo;
+  constructor(pokemonDataRepo, translationsService) {
+    this.#pokemonDataRepo = pokemonDataRepo;
     this.#translationsService = translationsService;
   }
 
   async findPokemon(name) {
-    return this.#pokemonRepo.find(name);
-  }
-
-  async findTranslated(name) {
-    const pokemon = await this.findPokemon(name);
-    if (pokemon === null) {
+    const data = await this.#pokemonDataRepo.find(name);
+    if (data === null) {
       return null;
     }
 
-    let description;
-    try {
-      description = await this.#translate(pokemon);
-    } catch (e) {
-      description = pokemon.description;
+    const description =
+      this.#getEnglishDescription(data.descriptions) ??
+      Service.#DEFAULT_DESCRIPTION;
+
+    return new Pokemon(name, description, data.habitat, data.isLegendary);
+  }
+
+  async findTranslated(name) {
+    const data = await this.#pokemonDataRepo.find(name);
+    if (data === null) {
+      return null;
     }
 
-    return new TranslatedPokemon(
-      pokemon.name,
-      description,
-      pokemon.habitat,
-      pokemon.isLegendary
+    return new Pokemon(
+      name,
+      await this.#translate(data),
+      data.habitat,
+      data.isLegendary
     );
   }
 
-  async #translate(pokemon) {
-    if (pokemon.habitat === "cave" || pokemon.isLegendary) {
-      return this.#translationsService.translateYoda(pokemon.description);
+  async #translate(data) {
+    const description = this.#getEnglishDescription(data.descriptions);
+    if (!description) {
+      return Service.#DEFAULT_DESCRIPTION;
     }
 
-    return this.#translationsService.translateShakespeare(pokemon.description);
+    try {
+      if (data.habitat === "cave" || data.isLegendary) {
+        return await this.#translationsService.translateYoda(description);
+      }
+
+      return await this.#translationsService.translateShakespeare(description);
+    } catch (e) {
+      return description;
+    }
+  }
+
+  #getEnglishDescription(descriptions) {
+    const description = descriptions.find(
+      ({ text, language }) => language === "en"
+    );
+
+    return description?.text ?? null;
   }
 }
