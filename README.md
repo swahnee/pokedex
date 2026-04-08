@@ -12,9 +12,9 @@ Build docker images:
 $ docker compose build --no-cache
 ```
 
-### Start the application
+### Run the application in watch mode
 
-Start the application for manual use
+Run the application:
 
 ```console
 $ docker compose up -d && docker compose logs -f
@@ -28,15 +28,13 @@ In order to access the running container:
 $ docker exec -it app sh
 ```
 
-### Console mode
-
-If you prefer to run the container and open a shell without starting the application:
+If you prefer to run the containers and open a shell without starting the service as well:
 
 ```console
 $ docker compose run --rm --service-ports app sh
 ```
 
-### Executing commands
+### Executing development commands
 
 From inside a container shell, you first need to install dependencies:
 
@@ -60,9 +58,9 @@ Turn off the containers:
 $ docker compose down --remove-orphans --volumes
 ```
 
-## Running the application
+## Production setup
 
-When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of real data.
+When started with Docker, as well as when running integration tests, the application calls fake services that return fixture data, instead of real one.
 
 In order to configure the application to run with a production setup, and thus make real calls on the network, just start it with the environment variable `APP_ENV` set to `prod`:
 

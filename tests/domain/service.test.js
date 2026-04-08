@@ -1,33 +1,67 @@
+import Description from "../../src/domain/pokemon-data-repo/description.js";
+import PokemonData from "../../src/domain/pokemon-data-repo/pokemon-data.js";
 import Service from "../../src/domain/service.js";
-import TranslatedPokemon from "../../src/domain/translated-pokemon.js";
+import TranslationsServiceError from "../../src/domain/translations-service/translations-service-error.js";
 
 describe("service.findPokemon", () => {
   it("finds pokemon given name", async () => {
-    const pokemon = "pokemon";
-    const pokemonRepo = {
-      find: () => pokemon,
+    const pokemonData = new PokemonData(
+      [new Description("description", "en")],
+      "habitat",
+      false
+    );
+    const pokemonDataRepo = {
+      find: async (name) => {
+        if (name === "name") {
+          return pokemonData;
+        }
+      },
     };
-    const service = new Service(pokemonRepo, {});
+    const service = new Service(pokemonDataRepo, {});
 
-    const result = await service.findPokemon("name");
+    const pokemon = await service.findPokemon("name");
 
-    expect(result).toBe(pokemon);
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("description");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(false);
+  });
+
+  it("handles missing English translation", async () => {
+    const pokemonData = new PokemonData(
+      [new Description("description", "it")],
+      "habitat",
+      false
+    );
+    const pokemonDataRepo = {
+      find: (name) => {
+        if (name === "name") {
+          return pokemonData;
+        }
+      },
+    };
+    const service = new Service(pokemonDataRepo, {});
+
+    const pokemon = await service.findPokemon("name");
+
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("Default description");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(false);
   });
 });
 
 describe("service.findTranslated", () => {
   it("translates cave pokemon with yoda translation", async () => {
-    const pokemon = {
-      name: "name",
-      description: "description",
-      habitat: "cave",
-      isLegendary: false,
-    };
-
-    const pokemonRepo = {
+    const pokemonData = new PokemonData(
+      [new Description("description", "en")],
+      "cave",
+      false
+    );
+    const pokemonDataRepo = {
       find: (name) => {
         if (name === "name") {
-          return pokemon;
+          return pokemonData;
         }
       },
     };
@@ -38,29 +72,26 @@ describe("service.findTranslated", () => {
         }
       },
     };
-    const service = new Service(pokemonRepo, translationsService);
+    const service = new Service(pokemonDataRepo, translationsService);
 
-    const translated = await service.findTranslated("name");
+    const pokemon = await service.findTranslated("name");
 
-    expect(translated).toBeInstanceOf(TranslatedPokemon);
-    expect(translated.name).toBe("name");
-    expect(translated.description).toBe("translation");
-    expect(translated.habitat).toBe("cave");
-    expect(translated.isLegendary).toBe(false);
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("translation");
+    expect(pokemon.habitat).toBe("cave");
+    expect(pokemon.isLegendary).toBe(false);
   });
 
   it("translates legendary pokemon with yoda translation", async () => {
-    const pokemon = {
-      name: "name",
-      description: "description",
-      habitat: "habitat",
-      isLegendary: true,
-    };
-
-    const pokemonRepo = {
+    const pokemonData = new PokemonData(
+      [new Description("description", "en")],
+      "habitat",
+      true
+    );
+    const pokemonDataRepo = {
       find: (name) => {
         if (name === "name") {
-          return pokemon;
+          return pokemonData;
         }
       },
     };
@@ -71,29 +102,26 @@ describe("service.findTranslated", () => {
         }
       },
     };
-    const service = new Service(pokemonRepo, translationsService);
+    const service = new Service(pokemonDataRepo, translationsService);
 
-    const translated = await service.findTranslated("name");
+    const pokemon = await service.findTranslated("name");
 
-    expect(translated).toBeInstanceOf(TranslatedPokemon);
-    expect(translated.name).toBe("name");
-    expect(translated.description).toBe("translation");
-    expect(translated.habitat).toBe("habitat");
-    expect(translated.isLegendary).toBe(true);
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("translation");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(true);
   });
 
   it("translates regular pokemon with shakespeare translation", async () => {
-    const pokemon = {
-      name: "name",
-      description: "description",
-      habitat: "habitat",
-      isLegendary: false,
-    };
-
-    const pokemonRepo = {
+    const pokemonData = new PokemonData(
+      [new Description("description", "en")],
+      "habitat",
+      false
+    );
+    const pokemonDataRepo = {
       find: (name) => {
         if (name === "name") {
-          return pokemon;
+          return pokemonData;
         }
       },
     };
@@ -104,52 +132,72 @@ describe("service.findTranslated", () => {
         }
       },
     };
-    const service = new Service(pokemonRepo, translationsService);
+    const service = new Service(pokemonDataRepo, translationsService);
 
-    const translated = await service.findTranslated("name");
+    const pokemon = await service.findTranslated("name");
 
-    expect(translated).toBeInstanceOf(TranslatedPokemon);
-    expect(translated.name).toBe("name");
-    expect(translated.description).toBe("translation");
-    expect(translated.habitat).toBe("habitat");
-    expect(translated.isLegendary).toBe(false);
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("translation");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(false);
+  });
+
+  it("handles missing English description", async () => {
+    const pokemonData = new PokemonData(
+      [new Description("description", "it")],
+      "habitat",
+      false
+    );
+    const pokemonDataRepo = {
+      find: (name) => {
+        if (name === "name") {
+          return pokemonData;
+        }
+      },
+    };
+
+    const service = new Service(pokemonDataRepo, {});
+
+    const pokemon = await service.findTranslated("name");
+
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("Default description");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(false);
   });
 
   it("handles pokemon not found", async () => {
-    const pokemonRepo = {
+    const pokemonDataRepo = {
       find: () => null,
     };
-    const service = new Service(pokemonRepo, {});
+    const service = new Service(pokemonDataRepo, {});
 
-    const translated = await service.findTranslated("name");
+    const pokemon = await service.findTranslated("name");
 
-    expect(translated).toBeNull();
+    expect(pokemon).toBeNull();
   });
 
   it("keeps original description in case of translation error", async () => {
-    const pokemon = {
-      name: "name",
-      description: "description",
-      habitat: "habitat",
-      isLegendary: false,
-    };
-
-    const pokemonRepo = {
-      find: () => pokemon,
+    const pokemonData = new PokemonData(
+      [new Description("description", "en")],
+      "habitat",
+      false
+    );
+    const pokemonDataRepo = {
+      find: () => pokemonData,
     };
     const translationsService = {
       translate: () => {
-        throw new Error();
+        throw new TranslationsServiceError();
       },
     };
-    const service = new Service(pokemonRepo, translationsService);
+    const service = new Service(pokemonDataRepo, translationsService);
 
-    const translated = await service.findTranslated("name");
+    const pokemon = await service.findTranslated("name");
 
-    expect(translated).toBeInstanceOf(TranslatedPokemon);
-    expect(translated.name).toBe("name");
-    expect(translated.description).toBe("description");
-    expect(translated.habitat).toBe("habitat");
-    expect(translated.isLegendary).toBe(false);
+    expect(pokemon.name).toBe("name");
+    expect(pokemon.description).toBe("description");
+    expect(pokemon.habitat).toBe("habitat");
+    expect(pokemon.isLegendary).toBe(false);
   });
 });

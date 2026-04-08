@@ -1,8 +1,9 @@
-import PokemonRepoError from "../../domain/pokemon-repo/pokemon-repo-error.js";
-import Pokemon from "../../domain/pokemon.js";
+import Description from "../../domain/pokemon-data-repo/description.js";
+import PokemonDataRepoError from "../../domain/pokemon-data-repo/pokemon-data-repo-error.js";
+import PokemonData from "../../domain/pokemon-data-repo/pokemon-data.js";
 
 /**
- * @implements Domain.PokemonRepo
+ * @implements Domain.PokemonDataRepo
  */
 export default class Pokeapi {
   /**
@@ -17,6 +18,9 @@ export default class Pokeapi {
     this.#pokeapiUrl = pokeapiUrl;
   }
 
+  /**
+   * @inheritdoc
+   */
   async find(name) {
     let response;
     try {
@@ -26,7 +30,7 @@ export default class Pokeapi {
     } catch (e) {
       // @TODO: add proper logging
       console.error(e);
-      throw new PokemonRepoError();
+      throw new PokemonDataRepoError();
     }
 
     if (response.status === 400) {
@@ -36,15 +40,16 @@ export default class Pokeapi {
     if (response.status !== 200) {
       // @TODO: add proper logging
       console.error(response);
-      throw new PokemonRepoError();
+      throw new PokemonDataRepoError();
     }
 
     const data = await response.json();
 
-    return new Pokemon(
-      name,
-      data.flavor_text_entries.filter((e) => e.language.name === "en")[0]
-        .flavor_text,
+    return new PokemonData(
+      data.flavor_text_entries.map(
+        ({ flavor_text, language: { name } }) =>
+          new Description(flavor_text, name)
+      ),
       data.habitat?.name ?? null,
       data.is_legendary
     );
