@@ -1,9 +1,7 @@
 import Pokemon from "./pokemon.js";
 
 export default class Service {
-  static get DEFAULT_DESCRIPTION() {
-    return "Default description";
-  }
+  static #DEFAULT_DESCRIPTION = "Default description";
 
   /**
    * @var {Domain.PokemonDataRepo}
@@ -32,7 +30,7 @@ export default class Service {
 
     const description =
       this.#getEnglishDescription(data.descriptions) ??
-      Service.DEFAULT_DESCRIPTION;
+      Service.#DEFAULT_DESCRIPTION;
 
     return new Pokemon(name, description, data.habitat, data.isLegendary);
   }
@@ -54,7 +52,7 @@ export default class Service {
   async #translate(data) {
     const description = this.#getEnglishDescription(data.descriptions);
     if (!description) {
-      return Service.DEFAULT_DESCRIPTION;
+      return Service.#DEFAULT_DESCRIPTION;
     }
 
     try {
